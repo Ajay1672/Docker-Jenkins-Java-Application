@@ -6,4 +6,8 @@ COPY . .
 
 RUN mvn clean package
 
-CMD ["java" "-jar" "
+EXPOSE 3000
+
+CMD ["java" "-jar" "AjayApplication.java"]
+
+
