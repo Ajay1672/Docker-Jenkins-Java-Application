@@ -19,18 +19,6 @@ pipeline {
                 bat 'cd webApp1 && mvn clean'
             }
         }
-
-         stage('Package') {
-            steps {
-                bat 'cd webApp1 && mvn package'
-            }
-        }
-
-        stage('Package') {
-            steps {
-                def nexusURL="http://localhost:8081/"
-            }
-        }
     }
 }
 
