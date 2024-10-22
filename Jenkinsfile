@@ -16,12 +16,16 @@ pipeline {
 
        stage('Clean') {
             steps {
-                sh 'cd webApp1 && mvn clean'
+                 dir('webApp1') {  
+                    sh 'mvn clean'
+                }
             }
         }
         stage('Package') {
             steps {
-                sh 'cd webApp1 && mvn package'
+                dir('webApp1') {  
+                    sh 'mvn package'
+                }
             }
         }
     }
