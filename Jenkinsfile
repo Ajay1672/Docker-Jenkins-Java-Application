@@ -16,7 +16,7 @@ pipeline {
 
         stage('Clean') {
             steps {
-                dir('webApp') {  
+                dir('WebApp') {  
                     sh 'mvn clean'
                 }
             }
@@ -24,7 +24,7 @@ pipeline {
 
         stage('Package') {
             steps {
-                dir('webApp') {  
+                dir('WebApp') {  
                     sh 'mvn package'
                 }
             }
