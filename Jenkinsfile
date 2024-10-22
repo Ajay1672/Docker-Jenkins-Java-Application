@@ -14,12 +14,12 @@ pipeline {
             }
         }
 
-       stage('clean') {
+       stage('Clean') {
             steps {
                 bat 'cd webApp1 && mvn clean'
             }
         }
-        stage('package') {
+        stage('Package') {
             steps {
                 bat 'cd webApp1 && mvn package'
             }
