@@ -8,26 +8,26 @@ pipeline {
             }
         }
 
-         stage('Clone') {
+        stage('Clone') {
             steps {
                 git branch: 'master', credentialsId: 'A', url: 'git@github.com:Ajay1672/Docker-Jenkins-Java-Application.git'
             }
         }
 
-       stage('Clean') {
+        stage('Clean') {
             steps {
-                 dir('webApp1') {  
+                dir('webApp') {  
                     sh 'mvn clean'
                 }
             }
         }
+
         stage('Package') {
             steps {
-                dir('webApp1') {  
+                dir('webApp') {  
                     sh 'mvn package'
                 }
             }
         }
     }
 }
-
