@@ -22,7 +22,7 @@ pipeline {
             }
         }
 
-        stage('Package') {
+        stage('Packages') {
             steps {
                 dir('WebApp') {  
                     sh 'mvn package'
