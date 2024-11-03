@@ -16,7 +16,6 @@ pipeline {
                 bat 'cd WebApp && mvn clean'
             }
         }
-
         stage('Packages') {
             steps {
                 // dir('WebApp') {  
