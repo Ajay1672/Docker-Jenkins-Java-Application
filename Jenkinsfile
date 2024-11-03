@@ -22,7 +22,6 @@ pipeline {
                 // dir('WebApp') {  
                 //     sh 'mvn package'
                 // }
-
                 bat 'cd WebApp && mvn package'
             }
         }
