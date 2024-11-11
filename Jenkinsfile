@@ -10,17 +10,14 @@ pipeline {
 
         stage('Clean') {
             steps {
-                dir('WebApp') {  
-                    sh 'mvn clean'
-                }
+                 bat 'cd WebApp && mvn clean'
             }
         }
 
         stage('Packages') {
             steps {
-                dir('WebApp') {  
-                    sh 'mvn package'
-                }
+                bat 'cd WebApp && mvn package'
+           
             }
         }
     }
