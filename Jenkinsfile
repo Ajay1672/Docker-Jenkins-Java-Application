@@ -33,5 +33,19 @@ pipeline {
                 bat 'cd WebApp && mvn package'
             }
         }
+
+         stage('Deployment into Nexus Repo') {
+            steps {
+                script {
+                def nexusUrl = "http://localhost:8081/repository/java-maven-app/com/example/ajay/0.0.1/ajay-0.0.1-SNAPSHOT.jar"
+                    def jarFile = "C:\\Users\\Ajay Maurya\\.jenkins\\workspace\\JavaAPP1\\WebApp\\target\\ajay-0.0.1-SNAPSHOT.jar"
+
+                    // Execute curl command using bat for Windows
+                    bat """
+                        curl -v -u admin:admin --upload-file "${jarFile}" ${nexusUrl}
+                    """
+                }
+            }
+        }
     }
 }
