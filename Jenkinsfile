@@ -2,22 +2,25 @@ pipeline {
     agent any
 
     environment {
-        // Define environment variable for Nexus credentials
         NEXUS_CREDENTIALS = credentials('nexus-admin-credentials')
     }
 
     stages {
-        stage('Clone') {
+        stage('Checkout') {
             steps {
-                git 'git@github.com:Ajay1672/Docker-Jenkins-Java-Application.git'
+                checkout scm  // This ensures the correct repository is checked out
+                script {
+                    // Debugging step to verify the directory and list files
+                    bat 'dir'
+                }
             }
         }
 
         stage('Build') {
             steps {
                 script {
-                    // Build project using Maven
-                    bat 'mvn clean install'
+                    // Ensure we are in the correct directory where pom.xml is located
+                    bat 'cd C:\\Users\\Ajay Maurya\\.jenkins\\workspace\\MavenNexusDeployment && mvn clean install'
                 }
             }
         }
@@ -25,9 +28,7 @@ pipeline {
         stage('Deploy to Nexus') {
             steps {
                 script {
-                    // Use credentials for Nexus repository
                     withCredentials([usernamePassword(credentialsId: 'nexus-admin-credentials', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-                        // Deploy to Nexus repository using Maven
                         bat """
                             mvn deploy:deploy-file \
                             -Dfile=target/ajay-0.0.1-SNAPSHOT.jar \
