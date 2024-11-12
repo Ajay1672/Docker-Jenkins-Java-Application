@@ -20,15 +20,6 @@
         <developer />
     </developers>
 
-    <!-- Nexus credentials and repository configuration -->
-    <servers>
-        <server>
-            <id>nexus-releases</id>
-            <username>admin</username>
-            <password>admin</password>
-        </server>
-    </servers>
-
     <distributionManagement>
         <repository>
             <id>nexus-releases</id>
