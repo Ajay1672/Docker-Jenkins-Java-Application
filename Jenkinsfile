@@ -39,17 +39,18 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'nexus-admin-credentials', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
                         bat """
-                            mvn deploy:deploy-file \
-                            -Dfile=target/ajay-0.0.1-SNAPSHOT.jar \
-                            -DrepositoryId=nexus-releases \
-                            -Durl=http://localhost:8081/repository/java-maven-app/ \
-                            -DgroupId=com.example \
-                            -DartifactId=ajay \
-                            -Dversion=0.0.1-SNAPSHOT \
-                            -Dpackaging=jar \
-                            -Dusername=${env.NEXUS_USERNAME} \
-                            -Dpassword=${env.NEXUS_PASSWORD}
-                        """
+    mvn deploy:deploy-file \
+    -Dfile=C:\\Users\\Ajay Maurya\\.jenkins\\workspace\\MvnNexus\\target\\ajay-0.0.1-SNAPSHOT.jar \
+    -DrepositoryId=nexus-releases \
+    -Durl=http://localhost:8081/repository/java-maven-app/ \
+    -DgroupId=com.example \
+    -DartifactId=ajay \
+    -Dversion=0.0.1-SNAPSHOT \
+    -Dpackaging=jar \
+    -Dusername=${env.NEXUS_USERNAME} \
+    -Dpassword=${env.NEXUS_PASSWORD}
+"""
+
                     }
                 }
             }
