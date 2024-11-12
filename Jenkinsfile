@@ -2,10 +2,8 @@ pipeline {
     agent any
 
     environment {
-        // Define environment variables (like Nexus repository credentials)
+        // Define Nexus repository URL
         NEXUS_REPO_URL = 'http://localhost:8081/repository/java-maven-app/'
-        NEXUS_USERNAME = credentials('admin')
-        NEXUS_PASSWORD = credentials('admin')
     }
 
     stages {
@@ -29,7 +27,7 @@ pipeline {
             }
         }
 
-        stage('Packages') {
+        stage('Package') {
             steps {
                 dir('WebApp') {  
                     bat 'mvn package'
@@ -39,13 +37,17 @@ pipeline {
 
         stage('Maven Nexus Deploy') {
             steps {
-                dir('WebApp') {  
-                    bat """
-                        mvn clean deploy -DrepositoryId=nexus-releases \
-                            -Durl=${NEXUS_REPO_URL} \
-                            -Dusername=${NEXUS_USERNAME} \
-                            -Dpassword=${NEXUS_PASSWORD}
-                    """
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'admin', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+                        dir('WebApp') {  
+                            bat """
+                                mvn clean deploy -DrepositoryId=nexus-releases \
+                                    -Durl=${NEXUS_REPO_URL} \
+                                    -Dusername=${NEXUS_USERNAME} \
+                                    -Dpassword=${NEXUS_PASSWORD}
+                            """
+                        }
+                    }
                 }
             }
         }
