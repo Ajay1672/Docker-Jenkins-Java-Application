@@ -8,19 +8,17 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm  // This ensures the correct repository is checked out
-                script {
-                    // Debugging step to verify the directory and list files
-                    bat 'dir'
-                }
+                checkout scm
             }
         }
 
         stage('Build') {
             steps {
                 script {
-                    // Ensure we are in the correct directory where pom.xml is located
-                    bat 'cd C:\\Users\\Ajay Maurya\\.jenkins\\workspace\\MavenNexusDeployment && mvn clean install'
+                    // Change to the directory where pom.xml is located
+                    dir('WebApp') {
+                        bat 'mvn clean install'
+                    }
                 }
             }
         }
