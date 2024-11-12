@@ -23,6 +23,17 @@ pipeline {
             }
         }
 
+             stage('Package') {
+            steps {
+                script {
+                    // Change to the directory where pom.xml is located
+                    dir('WebApp') {
+                        bat 'mvn package'
+                    }
+                }
+            }
+        }
+
         stage('Deploy to Nexus') {
             steps {
                 script {
