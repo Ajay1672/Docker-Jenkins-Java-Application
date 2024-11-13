@@ -5,5 +5,10 @@
             <username>admin</username>
             <password>admin</password>
         </server>
+        <server>
+            <id>nexus-snapshots</id>
+            <username>admin</username>
+            <password>admin</password>
+        </server>
     </servers>
 </settings>
