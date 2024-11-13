@@ -68,6 +68,8 @@
     </dependencies>
 
     <build>
+   <build>
+    <build>
     <plugins>
         <plugin>
             <groupId>org.springframework.boot</groupId>
@@ -78,10 +80,14 @@
             <artifactId>maven-deploy-plugin</artifactId>
             <version>3.0.0-M1</version>
             <configuration>
-                <altDeploymentRepository>http://localhost:8081/repository/java-mvn-repo/</altDeploymentRepository>
+                <altDeploymentRepository>nexus-releases::default::http://localhost:8081/repository/java-mvn-repo/</altDeploymentRepository>
             </configuration>
         </plugin>
     </plugins>
+</build>
+
+</build>
+
 </build>
 
 </project>
