@@ -74,20 +74,20 @@ pipeline {
 
         stage('Clean') {
             steps {
-                sh 'cd WebApp && mvn clean'
+                bat 'cd WebApp && mvn clean'
             }
         }
 
         stage('Package') {
             steps {
-                sh 'cd WebApp && mvn package'
+                bat 'cd WebApp && mvn package'
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonumonu') { // Uses the configured SonarQube server and token
-                    sh 'mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
+                    bat 'mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
                                         -Dsonar.host.url=http://localhost:9000'
                 }
             }
