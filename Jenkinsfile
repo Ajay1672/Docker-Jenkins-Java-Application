@@ -55,7 +55,6 @@
 // s
 // ------------------------------------------------------------------------------------------------------------------------------
 
-
 pipeline {
     agent any
 
@@ -120,30 +119,19 @@ pipeline {
         stage('Upload to Nexus') {
             steps {
                 script {
-                    // Read the pom.xml to dynamically fetch the necessary details
-                    def pom = readMavenPom file: 'WebApp/pom.xml'
-                    
-                    // Set the path to the built artifact (e.g., target/ajay-0.0.1-SNAPSHOT.jar)
-                    def artifactPath = "target/${pom.artifactId}-${pom.version}.${pom.packaging}"
-
                     // Use the Nexus Artifact Uploader plugin to upload the artifact
                     nexusArtifactUploader(
                         nexusVersion: NEXUS_VERSION,
                         protocol: NEXUS_PROTOCOL,
                         nexusUrl: NEXUS_URL,
-                        groupId: pom.groupId,
-                        version: pom.version,
+                        groupId: 'com.example',
+                        version: '0.0.1-SNAPSHOT',
                         repository: NEXUS_REPOSITORY,
                         credentialsId: NEXUS_CREDENTIAL_ID,
                         artifacts: [
-                            [artifactId: pom.artifactId,
-                             classifier: '',
-                             file: artifactPath,
-                             type: pom.packaging],
-                            [artifactId: pom.artifactId,
-                             classifier: '',
-                             file: 'WebApp/pom.xml',
-                             type: 'pom']
+                            [artifactId: 'ajay',
+                             file: 'target/ajay-0.0.1-SNAPSHOT.jar',
+                             type: 'jar']
                         ]
                     )
                 }
