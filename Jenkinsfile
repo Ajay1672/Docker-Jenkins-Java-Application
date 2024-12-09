@@ -52,9 +52,8 @@
 // //             }
 // //         }
 //     }
-// }
+// s
 // ------------------------------------------------------------------------------------------------------------------------------
-
 
 
 pipeline {
@@ -91,7 +90,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SONARSERVER') { // Uses the configured SonarQube server and token
+                withSonarQubeEnv('sonumonu') { // Uses the configured SonarQube server and token
                     sh 'mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
                                         -Dsonar.host.url=http://localhost:9000'
                 }
