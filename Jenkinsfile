@@ -1,6 +1,7 @@
 pipeline {
     agent any
 
+
     environment {
         SLACK_CHANNEL = '#devops'  // Replace with the channel you want to post to
     }
@@ -30,9 +31,7 @@ pipeline {
             }
         }
 
-
-
- // stage('Test Nexus URL') {
+        // stage('Test Nexus URL') {
         //     steps {
         //         bat 'curl -v http://localhost:8081/#admin/repository/repositories:vprofile-release'
         //     }
@@ -67,7 +66,7 @@ pipeline {
                 script {
                     def artifactPath = 'WebApp/target/ajay-0.0.1-SNAPSHOT.jar'
                     def version = "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}"
-                    def repositoryUrl = "http://localhost:8081/repository/vprofile-release/com/example/ajay/0.0.1/ajay-0.0.1-SNAPSHOT-${version}.jar"
+                    def repositoryUrl = 'http://localhost:8081/repository/vprofile-release/com/example/ajay/0.0.1/ajay-0.0.1-SNAPSHOT.jar'
 
                     if (fileExists(artifactPath)) {
                         echo "Uploading artifact to Nexus..."
@@ -80,9 +79,9 @@ pipeline {
                 }
             }
         }
-    }
 
-    post {
+
+         post {
         always {
             script {
                 // Define color map for Slack
@@ -104,4 +103,6 @@ pipeline {
             }
         }
     }
+        
+    } // Closing the 'stages' block
 }
