@@ -1,7 +1,6 @@
 pipeline {
     agent any
 
-
     environment {
         SLACK_CHANNEL = '#devops'  // Replace with the channel you want to post to
     }
@@ -31,37 +30,7 @@ pipeline {
             }
         }
 
-        // stage('Test Nexus URL') {
-        //     steps {
-        //         bat 'curl -v http://localhost:8081/#admin/repository/repositories:vprofile-release'
-        //     }
-        // }
-
-        // Uncomment and configure the following if you want to perform SonarQube analysis
-        // stage('SonarQube Analysis') {
-        //     steps {
-        //         withSonarQubeEnv('sonumonu') {
-        //             bat 'cd WebApp && mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
-        //                 -Dsonar.host.url=http://localhost:9000'
-        //         }
-        //     }
-        // }
-
-        // Uncomment and configure the following to enforce a Quality Gate
-        // stage('Quality Gate') {
-        //     steps {
-        //         script {
-        //             def qualityGate = waitForQualityGate()
-        //             if (qualityGate.status != 'OK') {
-        //                 error "Quality Gate 'bugs' failed: ${qualityGate.status}"
-        //             } else {
-        //                 echo "Quality Gate 'bugs' passed!"
-        //             }
-        //         }
-        //     }
-        // }
-
-        stage('Upload to Nexus') {
+         stage('Upload to Nexus') {
             steps {
                 script {
                     def artifactPath = 'WebApp/target/ajay-0.0.1-SNAPSHOT.jar'
@@ -80,8 +49,9 @@ pipeline {
             }
         }
 
+    }
 
-         post {
+    post {
         always {
             script {
                 // Define color map for Slack
@@ -103,6 +73,4 @@ pipeline {
             }
         }
     }
-        
-    } // Closing the 'stages' block
 }
