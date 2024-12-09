@@ -59,33 +59,27 @@ pipeline {
     agent any
 
     stages {
-        // stage('Hello') {
-        //     steps {
-        //         echo 'Hello World'
-        //     }
-        // }
-
-        // stage('Clone') {
-        //     steps {
-        //         git branch: 'master', credentialsId: 'a', url: 'git@github.com:Ajay1672/Docker-Jenkins-Java-Application.git'
-        //     }
-        // }
-
-        // stage('Clean') {
-        //     steps {
-        //         bat 'cd WebApp && mvn clean'
-        //     }
-        // }
-
-        // stage('Package') {
-        //     steps {
-        //         bat 'cd WebApp && mvn package'
-        //     }
-        // }
-
-        stage('Deploy to Nexus') {
+        stage('Hello') {
             steps {
-                bat 'cd WebApp && mvn deploy'
+                echo 'Hello World'
+            }
+        }
+
+        stage('Clone') {
+            steps {
+                git branch: 'master', credentialsId: 'a', url: 'git@github.com:Ajay1672/Docker-Jenkins-Java-Application.git'
+            }
+        }
+
+        stage('Clean') {
+            steps {
+                sh 'cd WebApp && mvn clean'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh 'cd WebApp && mvn package'
             }
         }
     }
