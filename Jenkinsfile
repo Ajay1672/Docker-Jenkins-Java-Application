@@ -30,14 +30,13 @@ pipeline {
             }
         }
 
-
- stage('Test Nexus URL') {
+        stage('Test Nexus URL') {
             steps {
                 bat 'curl -v http://localhost:8081/#admin/repository/repositories:vprofile-release'
             }
         }
 
-        Uncomment and configure the following if you want to perform SonarQube analysis
+        // Uncomment and configure the following if you want to perform SonarQube analysis
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonumonu') {
@@ -47,7 +46,7 @@ pipeline {
             }
         }
 
-        Uncomment and configure the following to enforce a Quality Gate
+        // Uncomment and configure the following to enforce a Quality Gate
         stage('Quality Gate') {
             steps {
                 script {
@@ -61,7 +60,7 @@ pipeline {
             }
         }
 
-         stage('Upload to Nexus') {
+        stage('Upload to Nexus') {
             steps {
                 script {
                     def artifactPath = 'WebApp/target/ajay-0.0.1-SNAPSHOT.jar'
