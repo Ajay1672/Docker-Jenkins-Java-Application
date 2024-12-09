@@ -26,6 +26,13 @@ pipeline {
             }
         }
 
+    stage('Test Nexus URL') {
+    steps {
+        bat 'curl -v http://localhost:8081/#admin/repository/repositories:vprofile-release'
+    }
+}
+
+
 
          // Uncomment and configure the following if you want to perform SonarQube analysis
         // stage('SonarQube Analysis') {
