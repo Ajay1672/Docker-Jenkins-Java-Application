@@ -58,10 +58,6 @@
 
 pipeline {
     agent any
-    tools {
-        maven "MVN"
-        jdk "JDK17"
-    }
 
     stages {
         stage('Hello') {
