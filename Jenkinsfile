@@ -4,7 +4,6 @@ pipeline {
   environment {
     NEXUS_VERSION = "nexus3"
     NEXUS_PROTOCOL = "http"
-    NEXUS_URL = "http://localhost:8081"  // Correct URL without the extra http://
     NEXUS_REPOSITORY = "vprofile-release"
     NEXUS_CREDENTIAL_ID = "nex"
     ARTVERSION = "${env.BUILD_ID}"
@@ -59,6 +58,15 @@ pipeline {
         //     }
         // }
 
+        stage('Test Nexus URL') {
+    steps {
+        script {
+            sh 'curl -v http://localhost:8081/repository/vprofile-release/'
+        }
+    }
+}
+
+
         stage('Upload to Nexus') {
             steps {
                 script {
@@ -71,7 +79,7 @@ pipeline {
                         nexusArtifactUploader(
                             nexusVersion: NEXUS_VERSION,
                             protocol: NEXUS_PROTOCOL,
-                            nexusUrl: NEXUS_URL,
+                            nexusUrl: 'http://localhost:8081',
                             groupId: 'com.example',
                             version: '0.0.1-SNAPSHOT',
                             repository: NEXUS_REPOSITORY,
