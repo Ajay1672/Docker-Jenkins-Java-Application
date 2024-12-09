@@ -86,10 +86,9 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonumonu') { // Uses the configured SonarQube server and token
-                    bat 'mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
-                                        -Dsonar.host.url=http://localhost:9000'
-                }
+                     withSonarQubeEnv('sonumonu') {
+                        bat 'cd WebApp && mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
+                        -Dsonar.host.url=http://localhost:9000'
             }
         }
     }
