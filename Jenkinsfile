@@ -121,7 +121,7 @@ pipeline {
             steps {
                 script {
                     // Read the pom.xml to dynamically fetch the necessary details
-                    def pom = readMavenPom file: 'pom.xml'
+                    def pom = readMavenPom file: 'WebApp/pom.xml'
                     
                     // Set the path to the built artifact (e.g., target/ajay-0.0.1-SNAPSHOT.jar)
                     def artifactPath = "target/${pom.artifactId}-${pom.version}.${pom.packaging}"
@@ -142,7 +142,7 @@ pipeline {
                              type: pom.packaging],
                             [artifactId: pom.artifactId,
                              classifier: '',
-                             file: 'pom.xml',
+                             file: 'WebApp/pom.xml',
                              type: 'pom']
                         ]
                     )
