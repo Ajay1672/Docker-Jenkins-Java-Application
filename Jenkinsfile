@@ -62,10 +62,10 @@ pipeline {
         stage('Upload to Nexus') {
             steps {
                 script {
-                    // Check if the artifact exists
-                    def artifactPath = 'target/ajay-0.0.1-SNAPSHOT.jar.original'
+                    // Set the correct artifact path
+                    def artifactPath = 'target/ajay-0.0.1-SNAPSHOT.jar'
                     
-                    // Make sure the file exists before attempting to upload
+                    // Check if the correct artifact file exists
                     if (fileExists(artifactPath)) {
                         // Use the Nexus Artifact Uploader plugin to upload the artifact
                         nexusArtifactUploader(
@@ -78,7 +78,7 @@ pipeline {
                             credentialsId: NEXUS_CREDENTIAL_ID,
                             artifacts: [
                                 [artifactId: 'ajay',
-                                 file: artifactPath,   // Referencing the correct file
+                                 file: artifactPath,   // Correct file path
                                  type: 'jar']
                             ]
                         )
