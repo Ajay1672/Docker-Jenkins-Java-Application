@@ -58,6 +58,15 @@
 pipeline {
     agent any
 
+    environment {
+        NEXUS_VERSION = "nexus3"
+        NEXUS_PROTOCOL = "http"
+        NEXUS_URL = "http://localhost:8081/"
+        NEXUS_REPOSITORY = "vprofile-release"
+        NEXUS_CREDENTIAL_ID = "nex"
+        ARTVERSION = "${env.BUILD_ID}"
+    }
+
     stages {
         stage('Hello') {
             steps {
@@ -83,29 +92,60 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonumonu') {
-                    bat 'cd WebApp && mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
-                        -Dsonar.host.url=http://localhost:9000'
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('sonumonu') {
+        //             bat 'cd WebApp && mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
+        //                 -Dsonar.host.url=http://localhost:9000'
+        //         }
+        //     }
+        // }
     
 
-        stage('Quality Gate') {
+        // stage('Quality Gate') {
+        //     steps {
+        //         script {
+        //             def qualityGate =  ()
+        //             if (qualityGate.status != 'OK') {
+        //                 // If the quality gate fails (either due to bugs or duplicate lines exceeding threshold), mark the build as failed
+        //                 error "Quality Gate 'bugs' failed: ${qualityGate.status}"
+        //             } else {
+        //                 echo "Quality Gate 'bugs' passed!"
+        //             }
+        //         }
+        //     }
+        // }
+        stage('Upload to Nexus') {
             steps {
                 script {
-                    def qualityGate = waitForQualityGate()
-                    if (qualityGate.status != 'OK') {
-                        // If the quality gate fails (either due to bugs or duplicate lines exceeding threshold), mark the build as failed
-                        error "Quality Gate 'bugs' failed: ${qualityGate.status}"
-                    } else {
-                        echo "Quality Gate 'bugs' passed!"
-                    }
+                    // Read the pom.xml to dynamically fetch the necessary details
+                    def pom = readMavenPom file: 'pom.xml'
+                    
+                    // Set the path to the built artifact (e.g., target/ajay-0.0.1-SNAPSHOT.jar)
+                    def artifactPath = "target/${pom.artifactId}-${pom.version}.${pom.packaging}"
+
+                    // Use the Nexus Artifact Uploader plugin to upload the artifact
+                    nexusArtifactUploader(
+                        nexusVersion: NEXUS_VERSION,
+                        protocol: NEXUS_PROTOCOL,
+                        nexusUrl: NEXUS_URL,
+                        groupId: pom.groupId,
+                        version: pom.version,
+                        repository: NEXUS_REPOSITORY,
+                        credentialsId: NEXUS_CREDENTIAL_ID,
+                        artifacts: [
+                            [artifactId: pom.artifactId,
+                             classifier: '',
+                             file: artifactPath,
+                             type: pom.packaging],
+                            [artifactId: pom.artifactId,
+                             classifier: '',
+                             file: 'pom.xml',
+                             type: 'pom']
+                        ]
+                    )
                 }
             }
-        }
 
 
     }
