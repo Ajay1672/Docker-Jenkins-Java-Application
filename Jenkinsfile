@@ -26,15 +26,13 @@ pipeline {
             }
         }
 
-    stage('Test Nexus URL') {
-    steps {
-        bat 'curl -v http://localhost:8081/#admin/repository/repositories:vprofile-release'
-    }
-}
+        // stage('Test Nexus URL') {
+        //     steps {
+        //         bat 'curl -v http://localhost:8081/#admin/repository/repositories:vprofile-release'
+        //     }
+        // }
 
-
-
-         // Uncomment and configure the following if you want to perform SonarQube analysis
+        // Uncomment and configure the following if you want to perform SonarQube analysis
         // stage('SonarQube Analysis') {
         //     steps {
         //         withSonarQubeEnv('sonumonu') {
@@ -62,30 +60,18 @@ pipeline {
             steps {
                 script {
                     def artifactPath = 'WebApp/target/ajay-0.0.1-SNAPSHOT.jar'
-                    def applicationName = 'ajay'
+                    def repositoryUrl = 'http://localhost:8081/repository/vprofile-release/com/example/ajay/0.0.1/ajay-0.0.1-SNAPSHOT.jar'
 
                     if (fileExists(artifactPath)) {
-                        nexusArtifactUploader(
-                            nexusVersion: 'nexus3',
-                            protocol: 'http',
-                            nexusUrl: 'http://localhost:8081',
-                            groupId: 'com.example',
-                            version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-                            repository: 'vprofile-release',
-                            credentialsId: 'nex',
-                            artifacts: [
-                                [
-                                    artifactId: applicationName,
-                                    file: artifactPath,
-                                    type: 'jar'
-                                ]
-                            ]
-                        )
+                        echo "Uploading artifact to Nexus..."
+                        bat """
+                            curl -v -u admin:admin --upload-file ${artifactPath} ${repositoryUrl}
+                        """
                     } else {
                         error "The artifact ${artifactPath} does not exist!"
                     }
                 }
             }
         }
-    }
+    } // Closing the 'stages' block
 }
