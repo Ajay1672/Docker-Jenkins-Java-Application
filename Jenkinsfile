@@ -1,6 +1,5 @@
 pipeline {
     agent any
-}
 
     stages {
         stage('Hello') {
@@ -27,7 +26,16 @@ pipeline {
             }
         }
 
-        // Uncomment and configure the following if you want to perform SonarQube analysis
+        stage('Test Nexus URL') {
+            steps {
+                script {
+                    sh 'curl -v http://localhost:8081/#admin/repository/repositories:vprofile-release'
+                }
+            }
+        }
+
+
+         // Uncomment and configure the following if you want to perform SonarQube analysis
         // stage('SonarQube Analysis') {
         //     steps {
         //         withSonarQubeEnv('sonumonu') {
@@ -51,24 +59,13 @@ pipeline {
         //     }
         // }
 
-        stage('Test Nexus URL') {
-    steps {
-        script {
-            sh 'curl -v http://localhost:8081/#admin/repository/repositories:vprofile-release'
-        }
-    }
-}
-
-
         stage('Upload to Nexus') {
             steps {
-                // script {
-                //     // Set the correct artifact path
-                //     def artifactPath = 'WebApp/target/ajay-0.0.1-SNAPSHOT.jar'
-                    
-                //     // Check if the correct artifact file exists
-                //     if (fileExists(artifactPath)) {
-                        // Use the Nexus Artifact Uploader plugin to upload the artifact
+                script {
+                    def artifactPath = 'WebApp/target/ajay-0.0.1-SNAPSHOT.jar'
+                    def applicationName = 'ajay'
+
+                    if (fileExists(artifactPath)) {
                         nexusArtifactUploader(
                             nexusVersion: 'nexus3',
                             protocol: 'http',
@@ -78,16 +75,18 @@ pipeline {
                             repository: 'vprofile-release',
                             credentialsId: 'nex',
                             artifacts: [
-                                [artifactId: 'ajay',
-                                 file: 'WebApp/target/ajay-0.0.1-SNAPSHOT.jar',   // Correct file path
-                                 type: 'jar']
+                                [
+                                    artifactId: applicationName,
+                                    file: artifactPath,
+                                    type: 'jar'
+                                ]
                             ]
                         )
                     } else {
                         error "The artifact ${artifactPath} does not exist!"
                     }
-                
+                }
             }
         }
     }
-
+}
