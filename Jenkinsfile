@@ -61,7 +61,7 @@ pipeline {
         stage('Test Nexus URL') {
     steps {
         script {
-            sh 'curl -v http://localhost:8081/repository/vprofile-release/'
+            sh 'curl -v http://localhost:8081/#admin/repository/repositories:vprofile-release'
         }
     }
 }
