@@ -63,7 +63,7 @@ pipeline {
             steps {
                 script {
                     // Set the correct artifact path
-                    def artifactPath = 'target/ajay-0.0.1-SNAPSHOT.jar'
+                    def artifactPath = 'WebApp/target/ajay-0.0.1-SNAPSHOT.jar'
                     
                     // Check if the correct artifact file exists
                     if (fileExists(artifactPath)) {
