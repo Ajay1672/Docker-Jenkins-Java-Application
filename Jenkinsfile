@@ -1,14 +1,14 @@
 pipeline {
     agent any
 
-    environment {
-        NEXUS_VERSION = "nexus3"
-        NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "http://localhost:8081/"
-        NEXUS_REPOSITORY = "vprofile-release"
-        NEXUS_CREDENTIAL_ID = "nex"
-        ARTVERSION = "${env.BUILD_ID}"
-    }
+  environment {
+    NEXUS_VERSION = "nexus3"
+    NEXUS_PROTOCOL = "http"
+    NEXUS_URL = "http://localhost:8081"  // Correct URL without the extra http://
+    NEXUS_REPOSITORY = "vprofile-release"
+    NEXUS_CREDENTIAL_ID = "nex"
+    ARTVERSION = "${env.BUILD_ID}"
+}
 
     stages {
         stage('Hello') {
