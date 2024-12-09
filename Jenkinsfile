@@ -91,5 +91,22 @@ pipeline {
                 }
             }
         }
+        ---
+
+        stage('Quality Gate') {
+            steps {
+                script {
+                    def qualityGate = waitForQualityGate()
+                    if (qualityGate.status != 'OK') {
+                        // If the quality gate fails (either due to bugs or duplicate lines exceeding threshold), mark the build as failed
+                        error "Quality Gate 'bugs' failed: ${qualityGate.status}"
+                    } else {
+                        echo "Quality Gate 'bugs' passed!"
+                    }
+                }
+            }
+        }
+
+        ----
     }
 }
