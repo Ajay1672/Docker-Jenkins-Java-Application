@@ -55,7 +55,6 @@
 // s
 // ------------------------------------------------------------------------------------------------------------------------------
 
-
 pipeline {
     agent any
 
@@ -86,9 +85,10 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                     withSonarQubeEnv('sonumonu') {
-                        bat 'cd WebApp && mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
+                withSonarQubeEnv('sonumonu') {
+                    bat 'cd WebApp && mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
                         -Dsonar.host.url=http://localhost:9000'
+                }
             }
         }
     }
