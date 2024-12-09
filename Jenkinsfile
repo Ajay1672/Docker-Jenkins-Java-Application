@@ -60,6 +60,7 @@ pipeline {
             steps {
                 script {
                     def artifactPath = 'WebApp/target/ajay-0.0.1-SNAPSHOT.jar'
+                    def version = "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}"
                     def repositoryUrl = 'http://localhost:8081/repository/vprofile-release/com/example/ajay/0.0.1/ajay-0.0.1-SNAPSHOT.jar'
 
                     if (fileExists(artifactPath)) {
