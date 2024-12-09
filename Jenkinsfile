@@ -1,12 +1,5 @@
 pipeline {
     agent any
-
-  environment {
-    NEXUS_VERSION = "nexus3"
-    NEXUS_PROTOCOL = "http"
-    NEXUS_REPOSITORY = "vprofile-release"
-    NEXUS_CREDENTIAL_ID = "nex"
-    ARTVERSION = "${env.BUILD_ID}"
 }
 
     stages {
@@ -69,32 +62,32 @@ pipeline {
 
         stage('Upload to Nexus') {
             steps {
-                script {
-                    // Set the correct artifact path
-                    def artifactPath = 'WebApp/target/ajay-0.0.1-SNAPSHOT.jar'
+                // script {
+                //     // Set the correct artifact path
+                //     def artifactPath = 'WebApp/target/ajay-0.0.1-SNAPSHOT.jar'
                     
-                    // Check if the correct artifact file exists
-                    if (fileExists(artifactPath)) {
+                //     // Check if the correct artifact file exists
+                //     if (fileExists(artifactPath)) {
                         // Use the Nexus Artifact Uploader plugin to upload the artifact
                         nexusArtifactUploader(
-                            nexusVersion: NEXUS_VERSION,
-                            protocol: NEXUS_PROTOCOL,
+                            nexusVersion: 'nexus3',
+                            protocol: 'http',
                             nexusUrl: 'http://localhost:8081',
                             groupId: 'com.example',
-                            version: '0.0.1-SNAPSHOT',
-                            repository: NEXUS_REPOSITORY,
-                            credentialsId: NEXUS_CREDENTIAL_ID,
+                            version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                            repository: 'vprofile-release',
+                            credentialsId: 'nex',
                             artifacts: [
                                 [artifactId: 'ajay',
-                                 file: artifactPath,   // Correct file path
+                                 file: 'WebApp/target/ajay-0.0.1-SNAPSHOT.jar',   // Correct file path
                                  type: 'jar']
                             ]
                         )
                     } else {
                         error "The artifact ${artifactPath} does not exist!"
                     }
-                }
+                
             }
         }
     }
-}
+
