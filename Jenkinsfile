@@ -57,6 +57,10 @@
 
 pipeline {
     agent any
+    tools{
+        maven "MVN"
+        jdk "JDK17"
+    }
 
     stages {
         stage('Hello') {
@@ -71,16 +75,28 @@ pipeline {
             }
         }
 
-        stage('Clean') {
-            steps {
-                sh 'cd WebApp && mvn clean'
-            }
-        }
 
-        stage('Package') {
+        stage('Build') {
             steps {
-                sh 'cd WebApp && mvn package'
+                sh 'mvn install -DskipTests'
+            }
+            post{
+                success{
+                    echo "Archiving artifact"
+                    archiveArtifacts artifacts: '**/*.jar'
+                }
             }
         }
+        // stage('Clean') {
+        //     steps {
+        //         sh 'cd WebApp && mvn clean'
+        //     }
+        // }
+
+        // stage('Package') {
+        //     steps {
+        //         sh 'cd WebApp && mvn package'
+        //     }
+        // }
     }
 }
