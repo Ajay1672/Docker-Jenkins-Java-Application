@@ -55,9 +55,11 @@
 // }
 // ------------------------------------------------------------------------------------------------------------------------------
 
+
+
 pipeline {
     agent any
-    tools{
+    tools {
         maven "MVN"
         jdk "JDK17"
     }
@@ -75,28 +77,25 @@ pipeline {
             }
         }
 
-
-        stage('Build') {
+        stage('Clean') {
             steps {
-                sh 'mvn install -DskipTests'
+                sh 'cd WebApp && mvn clean'
             }
-            post{
-                success{
-                    echo "Archiving artifact"
-                    archiveArtifacts artifacts: '**/*.jar'
+        }
+
+        stage('Package') {
+            steps {
+                sh 'cd WebApp && mvn package'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SONARSERVER') { // Uses the configured SonarQube server and token
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
+                                        -Dsonar.host.url=http://localhost:9000'
                 }
             }
         }
-        // stage('Clean') {
-        //     steps {
-        //         sh 'cd WebApp && mvn clean'
-        //     }
-        // }
-
-        // stage('Package') {
-        //     steps {
-        //         sh 'cd WebApp && mvn package'
-        //     
-        // }
     }
 }
