@@ -32,7 +32,7 @@ pipeline {
 
         stage('Test Nexus URL') {
             steps {
-                bat 'curl -v http://localhost:8081/#admin/repository/repositories:vprofile-release'
+                bat 'curl -v http://localhost:8081/#admin/repository/repositories:ajay-mvn'
             }
         }
 
@@ -65,7 +65,7 @@ pipeline {
                 script {
                     def artifactPath = 'WebApp/target/ajay-0.0.1-SNAPSHOT.jar'
                     def version = "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}"
-                    def repositoryUrl = 'http://localhost:8081/repository/vprofile-release/com/example/ajay/0.0.1/ajay-0.0.1-SNAPSHOT.jar'
+                    def repositoryUrl = 'http://localhost:8081/repository/ajay-mvn/com/example/ajay/0.0.1/ajay-0.0.1-SNAPSHOT.jar'
 
                     if (fileExists(artifactPath)) {
                         echo "Uploading artifact to Nexus..."
