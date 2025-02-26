@@ -1,0 +1,8 @@
+environment:
+  name: NEW ENV
+  identifier: NEW_ENV
+  description: ""
+  tags: {}
+  type: PreProduction
+  orgIdentifier: default
+  projectIdentifier: Project1
