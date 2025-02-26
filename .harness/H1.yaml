@@ -1,0 +1,46 @@
+pipeline:
+  name: H-1
+  identifier: H1
+  projectIdentifier: Project1
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: GIT CLONE
+        identifier: GIT_CLONE
+        description: ""
+        type: Custom
+        spec:
+          environment:
+            environmentRef: CLONE
+            gitBranch: master
+            deployToAll: false
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: git clone https://github.com/Ajay1672/Docker-Jenkins-Java-Application.git
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: Abort
+  properties:
+    ci:
+      codebase:
+        connectorRef: Ajay1672
+        build: <+input>
+        sparseCheckout: []
