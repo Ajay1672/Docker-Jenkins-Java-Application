@@ -1,0 +1,8 @@
+environment:
+  name: CLONE
+  identifier: CLONE
+  description: ""
+  tags: {}
+  type: PreProduction
+  orgIdentifier: default
+  projectIdentifier: Project1
