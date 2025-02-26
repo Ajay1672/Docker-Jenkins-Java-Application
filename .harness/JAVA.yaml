@@ -1,0 +1,8 @@
+environment:
+  name: JAVA
+  identifier: JAVA
+  description: ""
+  tags: {}
+  type: PreProduction
+  orgIdentifier: default
+  projectIdentifier: Project1
